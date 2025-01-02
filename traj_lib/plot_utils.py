@@ -91,7 +91,7 @@ def plot_aligned_side(ax, p_gt, p_es, n_align_frames):
             p_es[:n_align_frames:10, :], p_gt[:n_align_frames:10, :]):
         ax.plot([x1, x2], [z1, z2], '-', color="gray")
 
-def plot_error_n_dim(ax, distances, errors, results_dir,
+def plot_error_n_dim(ax, distances, errors, results_dir='',
                      colors=['r', 'g', 'b'],
                      labels=['x', 'y', 'z']):
     assert len(colors) == len(labels)

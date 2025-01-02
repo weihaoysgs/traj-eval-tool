@@ -29,14 +29,17 @@ class Trajectory:
     self.align_num_frames = align_num_frames
     
     self.data_aligned = False
-    self.abs_errors_calculated = False
+    self.abs_errors = {}
 
     self.load_trajectory()
 
   def load_trajectory(self):
     self.t_es, self.p_es, self.q_es, self.t_gt, self.p_gt, self.q_gt =\
             traj_loading.load_stamped_dataset(self.traj_dir)
-  
+
+    self.accum_distances = traj_utils.get_distance_from_start(self.p_gt)
+    self.traj_length = self.accum_distances[-1]
+
   def align_trajectory(self):
     if (self.data_aligned):
       print("Trajectory already aligned.")
@@ -78,7 +81,7 @@ class Trajectory:
     print("Trajectory alignment done.")
 
   def compute_absolute_error(self):
-    if self.abs_errors_calculated:
+    if self.abs_errors:
       print("Absolute errors already calculated")
       return
     print('Calculating RMSE...')
@@ -97,6 +100,19 @@ class Trajectory:
     res_writer.print_format_stats(stats_rot)
     print(Fore.GREEN + "Stats scale RMSE")
     res_writer.print_format_stats(stats_scale)
+
+    self.abs_errors['abs_e_trans'] = e_trans
+    self.abs_errors['abs_e_trans_stats'] = stats_trans
+
+    self.abs_errors['abs_e_trans_vec'] = e_trans_vec
+
+    self.abs_errors['abs_e_rot'] = e_rot
+    self.abs_errors['abs_e_rot_stats'] = stats_rot
+
+    self.abs_errors['abs_e_ypr'] = e_ypr
+
+    self.abs_errors['abs_e_scale_perc'] = e_scale_perc
+    self.abs_errors['abs_e_scale_stats'] = stats_scale
 
 def main():
   parser = argparse.ArgumentParser(
@@ -119,9 +135,20 @@ def main():
                       trajectory.align_num_frames)
   plt.legend(loc=1, borderaxespad=0.)
   fig.tight_layout()
+
+
+  fig = plt.figure(figsize=(8, 2.5))
+  ax = fig.add_subplot(
+      111, xlabel='Distance [m]', ylabel='Position Drift [mm]',
+      xlim=[0, trajectory.accum_distances[-1]])
+  pu.plot_error_n_dim(ax, trajectory.accum_distances,
+                      trajectory.abs_errors['abs_e_trans_vec']*1000)
+  ax.legend()
+  fig.tight_layout()
+  # fig.savefig(plots_dir+'/translation_error' + '_' + traj.align_str + FORMAT, bbox_inches="tight")
+
   plt.show()
 
 if __name__ == "__main__":
   main()
-  print("eval trajectory")
 
