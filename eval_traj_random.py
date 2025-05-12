@@ -134,16 +134,30 @@ def plot_trajectory_3d(ax, pos, color, name, alpha=1.0):
         alpha=alpha, label=name)
 
 def plot_3d_traj(eval_traj_list, traj_name_list, save_dir=""):
-  colors = generate_random_colors(len(traj_name_list))
+ 
   fig = plt.figure(figsize=(6, 5.5))
-  ax = fig.add_subplot(111, projection='3d')
+  colors = generate_random_colors(len(traj_name_list))
+  ax = fig.add_subplot(111, projection='3d',
+                      xlabel='x [m]', 
+                      ylabel='y [m]',
+                      zlabel='z [m]')
   ax.set_xlabel('X [m]', fontsize=14)
   ax.set_ylabel('Y [m]', fontsize=14)
   ax.set_zlabel('Z [m]', fontsize=14)
 
   ax.grid(ls='--', color='0.7')
-  ax.plot(eval_traj_list[0].p_gt[:, 0], eval_traj_list[0].p_gt[:, 1], 'm', 
+  ax.plot(eval_traj_list[0].p_gt[:, 0], eval_traj_list[0].p_gt[:, 1], eval_traj_list[0].p_gt[:, 2], 'm', 
     linestyle='--', alpha=1.0, label='Groundtruth')
+
+  # draw all trajectories
+  for i, traj in enumerate(eval_traj_list):
+      ax.plot(traj.p_es_aligned[:, 0], 
+              traj.p_es_aligned[:, 1],  
+              traj.p_es_aligned[:, 2],  
+              # color=colors[i], 
+              linestyle='-', 
+              alpha=0.7, 
+              label=traj_name_list[i])
 
   simple_draw_legend(ax)
   
