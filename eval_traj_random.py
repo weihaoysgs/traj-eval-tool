@@ -133,7 +133,7 @@ def plot_trajectory_3d(ax, pos, color, name, alpha=1.0):
         color=color, linestyle='-', 
         alpha=alpha, label=name)
 
-def plot_3d_traj(eval_traj_list, traj_name_list):
+def plot_3d_traj(eval_traj_list, traj_name_list, save_dir=""):
   colors = generate_random_colors(len(traj_name_list))
   fig = plt.figure(figsize=(6, 5.5))
   ax = fig.add_subplot(111, projection='3d')
@@ -149,8 +149,9 @@ def plot_3d_traj(eval_traj_list, traj_name_list):
   
   fig.tight_layout()
   plt.show()
+  fig.savefig(save_dir + "/3d_traj_compare.pdf", bbox_inches="tight")
 
-def plot_2d_traj_xyz(eval_traj_list, traj_name_list):
+def plot_2d_traj_xyz(eval_traj_list, traj_name_list, save_dir=""):
   alpha = 0.7
   legend_font_size = 14
   colors = generate_random_colors(len(traj_name_list))
@@ -188,9 +189,10 @@ def plot_2d_traj_xyz(eval_traj_list, traj_name_list):
   
   fig.tight_layout()
   plt.show()
+  fig.savefig(save_dir + "/3d_traj_xyz_compare.pdf", bbox_inches="tight")
 
 
-def plot_2d_traj(eval_traj_list, traj_name_list):
+def plot_2d_traj(eval_traj_list, traj_name_list, save_dir=""):
     alpha = 0.7
     legend_font_size = 14
     
@@ -214,6 +216,9 @@ def plot_2d_traj(eval_traj_list, traj_name_list):
   
     fig.tight_layout()
     plt.show()
+
+    fig.savefig(save_dir + "/2d_traj_xy_compare.pdf", bbox_inches="tight")
+
     
 def main():
   parser = argparse.ArgumentParser(
@@ -250,9 +255,9 @@ def main():
       # using the file name as the legend
       traj_name_list.append(os.path.splitext(traj_file)[0])
 
-  plot_3d_traj(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list)
-  plot_2d_traj_xyz(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list)
-  plot_2d_traj(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list)
+  plot_3d_traj(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list, save_dir=args.output_dir)
+  plot_2d_traj_xyz(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list, save_dir=args.output_dir)
+  plot_2d_traj(eval_traj_list=eval_traj_list, traj_name_list=traj_name_list, save_dir=args.output_dir)
   
 if __name__ == "__main__":
   main()
