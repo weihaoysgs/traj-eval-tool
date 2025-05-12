@@ -32,6 +32,7 @@ class Trajectory:
     self.abs_errors = {}
 
     self.load_trajectory()
+    print("Trajectory loaded.")
 
   def load_trajectory(self):
     self.t_es, self.p_es, self.q_es, self.t_gt, self.p_gt, self.q_gt =\
@@ -131,8 +132,8 @@ def main():
                         xlabel='x [m]', ylabel='y [m]')
   pu.plot_trajectory_side(ax, trajectory.p_es_aligned, 'b', 'Estimate')
   pu.plot_trajectory_side(ax, trajectory.p_gt, 'm', 'Groundtruth')
-  pu.plot_aligned_side(ax, trajectory.p_es_aligned, trajectory.p_gt,
-                      trajectory.align_num_frames)
+  # pu.plot_aligned_side(ax, trajectory.p_es_aligned, trajectory.p_gt,
+  #                     trajectory.align_num_frames)
   plt.legend(loc=1, borderaxespad=0.)
   fig.tight_layout()
 

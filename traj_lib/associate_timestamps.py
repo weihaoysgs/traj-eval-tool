@@ -81,6 +81,8 @@ def read_files_and_associate(first_file, second_file, offset, max_diff):
     first_stamps = read_timestamps(first_file)
     second_stamps = read_timestamps(second_file)
 
+    print("Read {0} timestamps from {1}".format(len(first_stamps), first_file))
+    print("Read {0} timestamps from {1}".format(len(second_stamps), second_file))
     return associate(first_stamps, second_stamps, offset, max_diff)
 
 if __name__ == '__main__':
