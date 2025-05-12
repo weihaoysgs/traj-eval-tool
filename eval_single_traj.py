@@ -115,6 +115,32 @@ class Trajectory:
     self.abs_errors['abs_e_scale_perc'] = e_scale_perc
     self.abs_errors['abs_e_scale_stats'] = stats_scale
 
+# plot 3d traj
+def plot_trajectory_3d(ax, pos, color, name, alpha=1.0):
+    ax.grid(ls='--', color='0.7')
+    ax.plot(pos[:, 0], pos[:, 1], pos[:, 2], 
+          color=color, linestyle='-', 
+          alpha=alpha, label=name)
+
+def plot_3d_traj(trajectory):
+  # create plot
+  fig = plt.figure(figsize=(8, 6))
+  ax = fig.add_subplot(111, projection='3d',
+                      xlabel='x [m]', 
+                      ylabel='y [m]',
+                      zlabel='z [m]')
+
+  # set view
+  ax.view_init(elev=20, azim=-120) 
+  # plot traj
+  plot_trajectory_3d(ax, trajectory.p_es_aligned, 'b', 'Estimate')
+  plot_trajectory_3d(ax, trajectory.p_gt, 'm', 'Groundtruth')
+
+  # add legend
+  ax.legend(loc='best')
+  plt.tight_layout()
+  plt.show()
+
 def main():
   parser = argparse.ArgumentParser(
         description='''Analyze trajectory estimate in a folder.''')
@@ -138,6 +164,7 @@ def main():
   fig.tight_layout()
 
 
+  plot_3d_traj(trajectory)
   fig = plt.figure(figsize=(8, 2.5))
   ax = fig.add_subplot(
       111, xlabel='Distance [m]', ylabel='Position Drift [mm]',
