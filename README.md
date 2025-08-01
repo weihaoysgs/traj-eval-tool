@@ -11,6 +11,17 @@ python3 ./eval_traj_random.py ./examples/multi_traj_example ./output
 python3 ./eval_single_traj.py ./examples
 ```
 
+<table>
+    <tr>
+        <td><center><img src="./images/1.png" width = 100%></center><center></center></td>
+        <td><center><img src="./images/3.png" width = 75%></center><center></center></td>
+    </tr>
+    <tr>
+        <td><center><img src="./images/2.png" width = 100%></center><center></center></td>
+        <td><center><img src="./images/4.png" width = 75%></center><center></center></td>
+    </tr>
+</table>
+
 # Reference
 ```shell
 @ARTICLE{umeyama,
